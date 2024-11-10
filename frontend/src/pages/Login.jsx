@@ -21,7 +21,6 @@ const Login = () => {
             if (response.data.token) {
                 localStorage.setItem("token", response.data.token);
                 setIsAuthenticated(true);
-                window.location.href = "/checkout";
                 console.log("Login successful, token stored.");
                 alert("Login successful");
                 navigate("/"); // Redirect user to home page
