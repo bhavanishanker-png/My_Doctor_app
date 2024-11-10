@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { assets } from "../assets/assets_frontend/assets";
 import { NavLink, useNavigate } from "react-router-dom";
+import { AppContext } from "../context/Context";
 
 const Navbar = () => {
     const navigate = useNavigate();
     const [showMenu, setShowMenu] = useState(false);
-    const [token, setToken] = useState(true);
+    const { isAuthenticated, setIsAuthenticated } = useContext(AppContext);
+    
 
     return (
         <div className="flex items-center justify-between text-sm py-4 px-6 md:px-12 border-b border-gray-300 shadow-sm">
@@ -16,8 +18,8 @@ const Navbar = () => {
             <ul className="hidden md:flex items-center gap-8 font-medium text-gray-700">
                 {['/', '/doctors', '/about', '/contact'].map((path, index) => (
                     <NavLink to={path} key={index} className="relative group">
-                        <li className="py-1 hover:text-blue-500">{path.slice(1).toUpperCase() || 'HOME'}</li>
-                        <span className="absolute left-0 right-0 h-0.5 bg-blue-500 w-3/5 m-auto opacity-0 group-hover:opacity-100 transition duration-300"></span>
+                        <li className=" hidden:block py-1">{path.slice(1).toUpperCase() || 'HOME'}</li>
+                        <hr className="border-none outline-none  h-0.5 bg-blue-500 w-3/5 m-auto hidden"></hr>
                     </NavLink>
                 ))}
             </ul>
@@ -38,15 +40,25 @@ const Navbar = () => {
 
 
             <div className="flex items-center gap-4">
-                {token ? (
+                {isAuthenticated ? (
                     <div className="relative group cursor-pointer flex items-center gap-2">
                         <img className="w-8 h-8 rounded-full shadow-md" src={assets.profile_pic} alt="Profile" />
                         <img className="w-2.5" src={assets.dropdown_icon} alt="Dropdown" />
 
-                        <div className="absolute right-0  top-8 w-48 bg-white rounded-lg shadow-lg hidden group-hover:flex flex-col gap-3 p-4">
+                        <div className="absolute right-0 w-48 bg-white rounded-lg shadow-lg hidden group-hover:flex flex-col gap-3 p-4">
                             <p className="text-gray-600 hover:text-blue-500 cursor-pointer" onClick={() => navigate("my-profile")}>My Profile</p>
                             <p className="text-gray-600 hover:text-blue-500 cursor-pointer" onClick={() => navigate("my-appointments")}>My Appointments</p>
-                            <p className="text-gray-600 hover:text-blue-500 cursor-pointer" onClick={() => setToken(false)}>Logout</p>
+                            <p
+                                className="text-gray-600 hover:text-blue-500 cursor-pointer"
+                                onClick={() => {
+                                    localStorage.removeItem("token");
+                                    setIsAuthenticated(false)
+                
+                                    navigate("/login");
+                                }}
+                            >
+                                Logout
+                            </p>
                         </div>
                     </div>
                 ) : (

@@ -1,14 +1,49 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios"; // Import axios
+import { AppContext } from "../context/Context";
+
 const Login = () => {
-    const [state, setState] = useState("Sign Up")
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-
-    const handleSubmit = (e) => {
+    const [error, setError] = useState(""); // Error state to store error messages
+    const navigate = useNavigate();
+    const {setIsAuthenticated} = useContext(AppContext);
+    const handleSubmit = async (e) => { // Add async here
         e.preventDefault();
-        console.log("Email:", email);
-        console.log("Password:", password);
+        setError(""); 
+        try {
+            const response = await axios.post("http://localhost:3000/api/users/login", {
+                email,
+                password,
+            });
+
+            if (response.data.token) {
+                localStorage.setItem("token", response.data.token);
+                setIsAuthenticated(true);
+                window.location.href = "/checkout";
+                console.log("Login successful, token stored.");
+                alert("Login successful");
+                navigate("/"); // Redirect user to home page
+            }
+        } catch (error) {
+            // Check if error is due to incorrect credentials or server error
+            if (error.response) {
+                // Server responded with a status other than 2xx
+                if (error.response.status === 401) {
+                    setError("Invalid email or password. Please try again.");
+                } else {
+                    setError("An error occurred. Please try again later.");
+                }
+            } else if (error.request) {
+                // Request was made but no response was received
+                setError("Network error. Please check your internet connection.");
+            } else {
+                // Something went wrong in setting up the request
+                setError("An unexpected error occurred. Please try again.");
+            }
+            console.error("Login error:", error);
+        }
     };
 
     return (
@@ -18,6 +53,12 @@ const Login = () => {
                 <p className="text-sm text-center text-gray-600">
                     Please enter your credentials to access your account.
                 </p>
+
+                {error && (
+                    <div className="text-red-600 text-center mt-2">
+                        <p>{error}</p>
+                    </div>
+                )}
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
@@ -47,7 +88,7 @@ const Login = () => {
                     <div>
                         <button
                             type="submit"
-                            className="w-full px-4 py-2 text-white bg-primary rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                            className="w-full px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
                         >
                             Login
                         </button>

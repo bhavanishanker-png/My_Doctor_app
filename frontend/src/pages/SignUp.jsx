@@ -1,15 +1,49 @@
 import React, { useState } from "react";
+import axios from "axios"; // Import axios for API requests
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const SignupPage = () => {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState(""); // Error state to store error messages
+    const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log("Name:", name);
-        console.log("Email:", email);
-        console.log("Password:", password);
+        setError(""); // Clear previous error messages
+        try {
+            const response = await axios.post("http://localhost:3000/api/users/signup", {
+                name,
+                email,
+                password,
+            });
+
+            if (response.data.token) {
+                localStorage.setItem("token", response.data.token);
+                console.log("Signup successful, token stored.");
+                alert("Signup successful");
+                navigate("/login"); // Redirect user to login page after successful signup
+            }
+        } catch (error) {
+            // Check if error is due to server response or network issue
+            if (error.response) {
+                // Server responded with an error
+                if (error.response.status === 400) {
+                    setError("Email is already in use or invalid data provided.");
+                } else {
+                    setError("An error occurred. Please try again later.");
+                }
+            } else if (error.request) {
+                // No response received from the server
+                setError("Network error. Please check your internet connection.");
+            } else {
+                // Something went wrong while setting up the request
+                setError("An unexpected error occurred. Please try again.");
+            }
+            console.error("Signup error:", error);
+        }
     };
 
     return (
@@ -20,8 +54,13 @@ const SignupPage = () => {
                     Create your account by filling in the information below.
                 </p>
 
-                <form onSubmit={handleSubmit} className="space-y-4">
+                {error && (
+                    <div className="text-red-600 text-center mt-2">
+                        <p>{error}</p>
+                    </div>
+                )}
 
+                <form onSubmit={handleSubmit} className="space-y-4">
                     <div>
                         <label className="block text-sm font-medium text-gray-700">Name</label>
                         <input
@@ -46,7 +85,6 @@ const SignupPage = () => {
                         />
                     </div>
 
-
                     <div>
                         <label className="block text-sm font-medium text-gray-700">Password</label>
                         <input
@@ -59,7 +97,6 @@ const SignupPage = () => {
                         />
                     </div>
 
-
                     <div>
                         <button
                             type="submit"
@@ -70,13 +107,12 @@ const SignupPage = () => {
                     </div>
                 </form>
 
-
                 <div className="text-center mt-4">
                     <p className="text-sm text-gray-600">
                         Already have an account?{" "}
-                        <a href="#" className="text-blue-600 hover:underline">
-                            Log in
-                        </a>
+                        <Link to="/login" className="text-blue-600 hover:underline">
+                            Login
+                        </Link>
                     </p>
                 </div>
             </div>
