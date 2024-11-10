@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate deploy",
+    "dev": "nodemon index.js"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
@@ -14,11 +17,11 @@
     "express-validator": "^7.2.0",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.11.4",
-    "nodemon": "^3.1.7",
     "stripe": "^17.3.1"
   },
   "devDependencies": {
-    "prisma": "^5.22.0"
+    "prisma": "^5.22.0",
+    "nodemon": "^3.1.7"
   },
   "keywords": [],
   "author": "",
