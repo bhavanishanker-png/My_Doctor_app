@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "index.js",
+      "src": "server.js",  // or the correct entry file for your app
       "use": "@vercel/node",
       "config": {
         "includeFiles": ["prisma/schema.prisma"],
@@ -12,8 +12,8 @@
   ],
   "routes": [
     {
-      "src": "/(.*)", 
-      "dest": "/index.js"
+      "src": "/(.*)",
+      "dest": "/server.js"
     }
   ]
 }
