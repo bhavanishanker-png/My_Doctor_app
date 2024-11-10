@@ -10,14 +10,15 @@
       }
     }
   ],
-  "postbuild": [
-    {
-      "run": "npx prisma generate"
-    }
   "routes": [
     {
       "src": "/(.*)",
       "dest": "/index.js"
+    }
+  ],
+  "postbuild": [
+    {
+      "run": "npx prisma generate"
     }
   ]
 }
