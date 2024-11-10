@@ -12,7 +12,7 @@ app.use(express.json());
 app.use(cors());
 
 // Import and use routes
-const userRoutes = require('./routes/userRoutes');  // Assuming you have a file for user-related routes
+const userRoutes = require('./src/routes/userRoutes');  // Assuming you have a file for user-related routes
 app.use('/api/users', userRoutes);  // Example route for user-related APIs
 
 app.get('/', (req, res) => {
