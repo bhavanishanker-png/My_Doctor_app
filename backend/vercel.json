@@ -15,10 +15,5 @@
       "src": "/(.*)",
       "dest": "/index.js"
     }
-  ],
-  "postbuild": [
-    {
-      "run": "npx prisma generate"
-    }
   ]
 }
