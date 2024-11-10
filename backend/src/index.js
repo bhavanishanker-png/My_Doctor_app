@@ -23,6 +23,11 @@ app.use(cors());
 const userRoutes = require('./routes/userRoutes');  // Assuming you have a file for user-related routes
 app.use('/api/users', userRoutes);  // Example route for user-related APIs
 
+// Home route API
+app.get('/', (req, res) => {
+  res.json({ message: 'Welcome to the API!' });
+});
+
 // Route to create payment intent
 // Error handling middleware
 app.use((err, req, res, next) => {
