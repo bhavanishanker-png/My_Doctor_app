@@ -4,7 +4,7 @@ import { assets } from "../assets/assets_frontend/assets";
 const Header = () => {
     return (
         // Header.js
-        <div className="flex flex-col md:flex-row flex-wrap bg-gradient-to-r from-teal-500 to-blue-500 rounded-xl p-6 md:p-5 lg:p-10 shadow-lg">
+        <div className="flex flex-col md:flex-row  mx-7 flex-wrap bg-gradient-to-r from-teal-500 to-blue-500 rounded-xl p-6 md:p-5 lg:p-10 shadow-lg">
             <div className="md:w-1/2 flex flex-col items-start justify-center gap-6 py-10 m-auto md:py-[8vw]">
                 <h1 className="text-4xl md:text-4xl lg:text-5xl text-white font-bold leading-tight">
                     Book Appointment <br /> With Trusted Doctors

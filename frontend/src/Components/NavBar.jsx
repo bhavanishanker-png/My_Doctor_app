@@ -7,7 +7,7 @@ const Navbar = () => {
     const navigate = useNavigate();
     const [showMenu, setShowMenu] = useState(false);
     const { isAuthenticated, setIsAuthenticated } = useContext(AppContext);
-    
+
 
     return (
         <div className="flex items-center justify-between text-sm py-4 px-6 md:px-12 border-b border-gray-300 shadow-sm">
@@ -45,21 +45,25 @@ const Navbar = () => {
                         <img className="w-8 h-8 rounded-full shadow-md" src={assets.profile_pic} alt="Profile" />
                         <img className="w-2.5" src={assets.dropdown_icon} alt="Dropdown" />
 
-                        <div className="absolute right-0 w-48 bg-white rounded-lg shadow-lg hidden group-hover:flex flex-col gap-3 p-4">
-                            <p className="text-gray-600 hover:text-blue-500 cursor-pointer" onClick={() => navigate("my-profile")}>My Profile</p>
-                            <p className="text-gray-600 hover:text-blue-500 cursor-pointer" onClick={() => navigate("my-appointments")}>My Appointments</p>
-                            <p
-                                className="text-gray-600 hover:text-blue-500 cursor-pointer"
-                                onClick={() => {
-                                    localStorage.removeItem("token");
-                                    setIsAuthenticated(false)
-                
-                                    navigate("/login");
-                                }}
-                            >
-                                Logout
-                            </p>
+                        <div className="relative group">
+                            <button className="text-gray-700">Hover me</button>
+
+                            <div className="absolute right-0 w-48 bg-white rounded-lg shadow-lg hidden group-hover:flex flex-col gap-3 p-4 mt-1 z-10">
+                                <p className="text-gray-600 hover:text-blue-500 cursor-pointer" onClick={() => navigate("my-profile")}>My Profile</p>
+                                <p className="text-gray-600 hover:text-blue-500 cursor-pointer" onClick={() => navigate("my-appointments")}>My Appointments</p>
+                                <p
+                                    className="text-gray-600 hover:text-blue-500 cursor-pointer"
+                                    onClick={() => {
+                                        localStorage.removeItem("token");
+                                        setIsAuthenticated(false);
+                                        navigate("/login");
+                                    }}
+                                >
+                                    Logout
+                                </p>
+                            </div>
                         </div>
+
                     </div>
                 ) : (
                     <button onClick={() => navigate("login")} className="bg-primary text-white px-6 py-2 rounded-full font-light shadow hover:bg-blue-600 transition duration-300 hidden md:block">

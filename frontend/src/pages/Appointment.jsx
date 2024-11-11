@@ -6,7 +6,7 @@ import { AppContext } from "../context/Context";
 
 const Appointment = () => {
     const { doctId } = useParams();
-    const navigate = useNavigate(); // Use navigate hook to redirect to payment page
+    const navigate = useNavigate(); 
     const { doctors } = useContext(AppContext);
     const daysOfWeek = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
     const [docInfo, setDocInfo] = useState(null);

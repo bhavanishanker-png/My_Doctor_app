@@ -16,7 +16,7 @@ const RelatedDoctors = ({ speciality, docId }) => {
   }, [doctors, speciality, docId]);
 
   return (
-    <div className="w-full grid grid-cols-auto sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div className="w-full grid grid-cols-auto sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-8">
       {relDoc.length === 0 ? (
         <p className="col-span-full text-center text-gray-500">No related doctors found.</p>
       ) : (
