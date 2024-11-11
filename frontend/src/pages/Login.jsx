@@ -1,47 +1,52 @@
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios"; // Import axios
+import axios from "axios";
 import { AppContext } from "../context/Context";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState(""); // Error state to store error messages
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false); // Loading state to disable button during API call
     const navigate = useNavigate();
-    const {setIsAuthenticated} = useContext(AppContext);
-    const handleSubmit = async (e) => { // Add async here
+    const { setIsAuthenticated } = useContext(AppContext);
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(""); 
+        setError("");
+        setLoading(true); // Disable button immediately to prevent duplicate clicks
+
         try {
-            const response = await axios.post("http://localhost:3000/api/users/login", {
+            // Send POST request to login API
+            const response = await axios.post("https://my-doctor-app-2.onrender.com/api/users/login", {
                 email,
                 password,
             });
 
             if (response.data.token) {
+                // Store token in local storage
                 localStorage.setItem("token", response.data.token);
                 setIsAuthenticated(true);
                 console.log("Login successful, token stored.");
                 alert("Login successful");
-                navigate("/"); // Redirect user to home page
+                navigate("/"); // Redirect to home page
             }
         } catch (error) {
-            // Check if error is due to incorrect credentials or server error
+            // Handle various error scenarios
             if (error.response) {
-                // Server responded with a status other than 2xx
                 if (error.response.status === 401) {
                     setError("Invalid email or password. Please try again.");
                 } else {
                     setError("An error occurred. Please try again later.");
                 }
             } else if (error.request) {
-                // Request was made but no response was received
                 setError("Network error. Please check your internet connection.");
             } else {
-                // Something went wrong in setting up the request
                 setError("An unexpected error occurred. Please try again.");
             }
             console.error("Login error:", error);
+        } finally {
+            setLoading(false); // Re-enable button after response or error
         }
     };
 
@@ -87,17 +92,21 @@ const Login = () => {
                     <div>
                         <button
                             type="submit"
-                            className="w-full px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                            className="w-full px-4 py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 disabled:opacity-50"
+                            disabled={loading} // Disable button when loading
                         >
-                            Login
+                            {loading ? "Logging in..." : "Login"}
                         </button>
                     </div>
                 </form>
 
                 <div className="text-center mt-4">
-                    <a href="#" className="text-sm text-blue-600 hover:underline">
+                    <button
+                        onClick={() => alert("Forgot password flow goes here")}
+                        className="text-sm text-blue-600 hover:underline"
+                    >
                         Forgot your password?
-                    </a>
+                    </button>
                 </div>
                 <div className="text-center">
                     <p className="text-sm text-gray-600">
