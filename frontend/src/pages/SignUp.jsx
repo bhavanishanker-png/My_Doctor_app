@@ -14,7 +14,7 @@ const SignupPage = () => {
         e.preventDefault();
         setError(""); // Clear previous error messages
         try {
-            const response = await axios.post("https://my-doctor-app-2.onrender.com/api/users/signup", {
+            const response = await axios.post("https://github.com/bhavanishanker-png/My_Doctor_app.git/api/users/signup", {
                 name,
                 email,
                 password,
