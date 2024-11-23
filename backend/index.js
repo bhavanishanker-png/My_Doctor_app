@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 
 // Enable CORS based on the configuration
-app.use(cors());
+app.use(cors({origin:"*"}));
 
 // Import and use routes
 const userRoutes = require('./src/routes/userRoutes');  // Assuming you have a file for user-related routes
