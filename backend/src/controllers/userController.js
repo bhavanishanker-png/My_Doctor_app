@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 // Signup Controller
 const signup = async (req, res) => {
   const { name, email, password } = req.body;
-
+  
   try {
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({

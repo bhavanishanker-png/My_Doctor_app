@@ -18,7 +18,7 @@ const Login = () => {
 
         try {
             // Send POST request to login API
-            const response = await axios.post("https://my-doctor-app-u5ds.vercel.app/api/users/login", {
+            const response = await axios.post("https://my-doctor-app-2.onrender.com/api/users/login", {
                 email,
                 password,
             });
