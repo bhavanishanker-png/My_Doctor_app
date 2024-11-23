@@ -8,12 +8,16 @@ const app = express();
 // Middleware to parse JSON request bodies
 app.use(express.json());
 
-// Enable CORS with specific origins
+// Enable CORS with specific origins and proper headers
 app.use(cors({
     origin: ['http://localhost:5173', 'https://my-doctor-app-zeta.vercel.app'], 
     methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    allowedHeaders: ['Content-Type', 'Authorization'], // Add necessary headers
     credentials: true,
 }));
+
+// Handle preflight requests (OPTIONS method)
+app.options('*', cors());
 
 // Serve React static files
 const buildPath = process.env.BUILD_PATH || 'build';
