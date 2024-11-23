@@ -10,7 +10,7 @@ app.use(express.json());
 
 // Enable CORS with specific origins
 app.use(cors({
-    origin: ['http://localhost:5173', 'https://my-doctor-app-u5ds.vercel.app'], 
+    origin: ['http://localhost:5173', 'https://my-doctor-app-zeta.vercel.app'], 
     methods: ['GET', 'POST', 'PUT', 'DELETE'], 
     credentials: true,
 }));
